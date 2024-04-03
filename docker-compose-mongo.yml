@@ -12,5 +12,6 @@ services:
     volumes:
       - '/var/lib/docker/volumes:/data/db'
       - '/var/lib/docker/volumes:/data/configdb'
+    command: ["--auth"]
     env_file:
       - path: ./.env
