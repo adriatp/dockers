@@ -7,6 +7,7 @@ Stores docker-compose files used in the past to keep tracking my pov soa.
 - [x] Add `mongo`
 - [ ] Add `mongo express`
 - [ ] Add `mysql`
+- [ ] Add nginx and certbot (watch out for arm)
 - [ ] Add `gitlab` or `gitea`
 - [ ] Add password manager
 
