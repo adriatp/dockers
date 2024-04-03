@@ -14,11 +14,12 @@ Stores docker-compose files used in the past to keep tracking my pov soa.
 ## Mongo
 
 ```bash
-docker compose -f ./docker-compose-mongo.yml up -d
+docker compose -f ./docker-compose-mongo.yml up -d --remove-orphans --force-recreate --build mongo
 ```
 
 ```bash
 docker compose -f ./docker-compose-mongo.yml down
+docker system prune --force
 ```
 
 ## FAQs

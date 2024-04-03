@@ -12,7 +12,9 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - 'mongodb_data:/data/db'
+      - 'mongo_db:/data/db'
+      - 'mongo_configdb:/data/configdb'
 
 volumes:
-  mongodb_data:
+  mongo_db:
+  mongo_configdb:
