@@ -11,3 +11,5 @@ docker compose --env-file ./.env -f ./docker-compose-mongo.yml up -d
 ```bash
 docker compose --env-file ./.env -f ./docker-compose-mongo.yml down
 ```
+
+- **TODO:** Add mongo express file to check db in browser
