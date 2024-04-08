@@ -45,7 +45,7 @@ docker compose -f ./mongo-express/docker-compose.yml down
 
 `TODO`
 
-## Clean Docker (**Warning**)
+## Clean all ⚠️
 
 Only use in dev/test, **this removes all images, containers, and volumes**
 
@@ -57,30 +57,23 @@ docker stop $(docker ps -a -q); docker rm $(docker ps -a -q); docker rmi -f $(do
 
 - **I just cloned this repo, what should I do?**
 
-1. Copy the contents of the `sample_creds` folder to `credentials` and change the values to your needs
+  1. Copy the contents of the `sample_creds` folder to `credentials` and change the values to your needs
 
-2. Run the `up` docker-compose command of the services you want to run
+  2. Run the `up` docker-compose command of the services you want to run
 
-3. Enjoy 😎
+  3. Enjoy 😎
 
 - **What if I can run docker due lack of permissions (like in Debian)?**
 
-Try to add your user into `docker` group. First create it (if it's not already).
+
 
 ```bash
+# Try to add your user into `docker` group. First create it (if it's not already)
 cat /etc/group
 sudo groupadd docker
-```
-
-Add your user to the docker group
-
-```bash
+# Add your user to the docker group
 sudo usermod -aG docker ${USER}
-```
-
-Reload session to re-evaluate the group membership
-
-```bash
+# Reload session to re-evaluate the group membership
 su -s ${USER}
 ```
 
