@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    env_file:
+      - path: ../credentials/mongo.env
+    environment:
+      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    ports:
+      - ${MONGO_HOST_PORT}:27017
+    volumes:
+      - 'mongo_db:/data/db'
+      - 'mongo_configdb:/data/configdb'
+    networks:
+      - mongo_network
+
+volumes:
+  mongo_db:
+  mongo_configdb:
+
+networks:
+  mongo_network:
+    driver: bridge
+    name: mongo_network

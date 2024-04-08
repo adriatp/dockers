@@ -1,27 +1,11 @@
 services:
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    restart: always
-    env_file:
-      - path: ./credentials/mongo.env
-    environment:
-      MONGO_INITDB_DATABASE: admin
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    ports:
-      - ${MONGO_HOST_PORT}:27017
-    volumes:
-      - 'mongo_db:/data/db'
-      - 'mongo_configdb:/data/configdb'
-
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
     restart: always
     env_file:
-      - path: ./credentials/mongo.env
-      - path: ./credentials/mongo-express.env
+      - path: ../credentials/mongo.env
+      - path: ../credentials/mongo-express.env
     ports:
       - ${ME_HOST_PORT}:8081
     environment:
@@ -32,7 +16,9 @@ services:
       - ME_CONFIG_BASICAUTH=true
       - ME_CONFIG_BASICAUTH_USERNAME=${ME_WEB_USERNAME}
       - ME_CONFIG_BASICAUTH_PASSWORD=${ME_WEB_PASSWORD}
+    networks:
+      - mongo_network
 
-volumes:
-  mongo_db:
-  mongo_configdb:
+networks:
+  mongo_network:
+    external: true

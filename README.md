@@ -16,11 +16,21 @@ Stores docker-compose files used in the past to keep tracking my pov soa.
 ## Mongo
 
 ```bash
-docker compose -f ./docker-compose-mongo.yml --env-file ./credentials/mongo.env --env-file ./credentials/mongo-express.env up -d
+docker compose -f ./mongo/docker-compose.yml --env-file ./credentials/mongo.env up -d
 ```
 
 ```bash
-docker compose -f ./docker-compose-mongo.yml down
+docker compose -f ./mongo/docker-compose.yml down
+```
+
+## Mongo-express
+
+```bash
+docker compose -f ./mongo-express/docker-compose.yml --env-file ./credentials/mongo.env --env-file ./credentials/mongo-express.env up -d
+```
+
+```bash
+docker compose -f ./mongo-express/docker-compose.yml down
 ```
 
 ## Nginx
