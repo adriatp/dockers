@@ -19,7 +19,9 @@ services:
 
 volumes:
   mongo_db:
+    name: mongo_db
   mongo_configdb:
+    name: mongo_configdb
 
 networks:
   mongo_network:
