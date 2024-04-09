@@ -1,17 +1,17 @@
 # Dockers
 
-Stores docker-compose files used in the past to keep tracking my pov soa.
+Stores docker-compose files used in the past to keep tracking my pov soa
 
-## TODO
+## todo
 
 - [x] Add `mongo`
 - [x] Add `mongo express`
+- [x] Docs to run `mongo` without `mongo-express`
+- [x] Use bash/make to run docker
 - [ ] Add nginx and certbot (watch out for arm)
 - [ ] Add `mariadb`
 - [ ] Add `gitlab` or `gitea`
-- [ ] Add password manager
-- [x] Docs to run `mongo` without `mongo-express`
-- [x] Use bash/make to run docker
+- [ ] Add `postfix` for smtp relay
 
 ## credentials
 
