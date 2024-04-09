@@ -10,62 +10,40 @@ Stores docker-compose files used in the past to keep tracking my pov soa.
 - [ ] Add `mariadb`
 - [ ] Add `gitlab` or `gitea`
 - [ ] Add password manager
-- [ ] Docs to run `mongo` without `mongo-express`
-- [ ] Use bash/make to run docker
+- [x] Docs to run `mongo` without `mongo-express`
+- [x] Use bash/make to run docker
 
-## Mongo
+## credentials
 
-```bash
-docker compose -f ./mongo/docker-compose.yml --env-file ./credentials/mongo.env up -d
-```
+Copy sample creds and populate with your data
 
 ```bash
-docker compose -f ./mongo/docker-compose.yml down
+cp sample_creds/* credentials
 ```
 
-## Mongo-express
+## run
+
+Make `run.sh` file executable and pass the operation and service
 
 ```bash
-docker compose -f ./mongo-express/docker-compose.yml --env-file ./credentials/mongo.env --env-file ./credentials/mongo-express.env up -d
+chmod +x run.sh
+./run up mongo
 ```
 
-```bash
-docker compose -f ./mongo-express/docker-compose.yml down
-```
+### operations
 
-## Nginx
+- up
+- down
+- kill-all
 
-`TODO`
+### services
 
-## MariaDB
+- mongo
+- mongo-express
 
-`TODO`
-
-## Git repo
-
-`TODO`
-
-## Clean all ⚠️
-
-Only use in dev/test, **this removes all images, containers, and volumes**
-
-```bash
-docker stop $(docker ps -a -q); docker rm $(docker ps -a -q); docker rmi -f $(docker images -a -q); docker volume rm -f $(docker volume ls -q)
-```
-
-## FAQs
-
-- **I just cloned this repo, what should I do?**
-
-  1. Copy the contents of the `sample_creds` folder to `credentials` and change the values to your needs
-
-  2. Run the `up` docker-compose command of the services you want to run
-
-  3. Enjoy 😎
+## faqs
 
 - **What if I can run docker due lack of permissions (like in Debian)?**
-
-
 
 ```bash
 # Try to add your user into `docker` group. First create it (if it's not already)
@@ -76,4 +54,3 @@ sudo usermod -aG docker ${USER}
 # Reload session to re-evaluate the group membership
 su -s ${USER}
 ```
-
