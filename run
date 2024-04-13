@@ -29,6 +29,14 @@ case "$2" in
     service="-f ./mongo-express/docker-compose.yml"
     dotenv="--env-file ./credentials/mongo.env --env-file ./credentials/mongo-express.env"
     ;;
+  gitea)
+    service="-f ./gitea/docker-compose.yml"
+    dotenv="--env-file ./credentials/gitea.env --env-file ./credentials/mariadb.env"
+    ;;
+  mariadb)
+    service="-f ./mariadb/docker-compose.yml"
+    dotenv="--env-file ./credentials/mariadb.env"
+    ;;
   *)
     echo "Invalid service."
     exit 1
