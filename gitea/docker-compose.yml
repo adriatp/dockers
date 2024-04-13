@@ -1,0 +1,37 @@
+services:
+  gitea:
+    container_name: gitea
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      USER_UID: 1000
+      USER_GID: 1000
+      GITEA__database__DB_TYPE: ${GITEA__database__DB_TYPE}
+      GITEA__database__HOST: ${GITEA__database__HOST}
+      GITEA__database__USER: ${GITEA__database__USER}
+      GITEA__database__PASSWD: ${GITEA__database__PASSWD}
+      GITEA__database__NAME: ${GITEA__database__NAME}
+      MARIADB_PORT: ${MARIADB_PORT}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - gitea_data:/var/lib/gitea
+      - gitea_config:/etc/gitea
+    ports:
+      - "${GITEA__WEB_PORT}:3000"
+      - "${GITEA__SSH_PORT}:22"
+    networks:
+      - mariadb_network
+
+volumes:
+  gitea_data:
+    name: gitea_data
+  gitea_config:
+    name: gitea_config
+
+networks:
+  mariadb_network:
+    external: true
