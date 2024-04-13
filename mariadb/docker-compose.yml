@@ -1,0 +1,21 @@
+services:
+  mariadb:
+    image: mariadb:11.3.2
+    container_name: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "${MARIADB_PORT}:3306"
+    networks:
+      - mariadb_network
+
+volumes:
+  mariadb_data:
+    name: mariadb_data
+
+networks:
+  mariadb_network:
+    driver: bridge
+    name: mariadb_network
