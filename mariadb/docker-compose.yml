@@ -1,6 +1,8 @@
 services:
   mariadb:
-    image: mariadb:11.3.2
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: mariadb
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
