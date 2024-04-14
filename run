@@ -7,6 +7,8 @@ case "$1" in
   down)
     operation="down"
     ;;
+  rm)
+    ;;
   kill-all)
     docker stop $(docker ps -a -q)
     docker rm $(docker ps -a -q)
@@ -22,20 +24,33 @@ esac
 
 case "$2" in
   mongo)
-    service="-f ./mongo/docker-compose.yml"
+    service="./mongo/docker-compose.yml"
     dotenv="--env-file ./credentials/mongo.env"
+    container="mongo"
+    image="mongo"
+    volumes="mongo_db mongo_configdb"
+    networks="mongo_network"
     ;;
   mongo-express)
-    service="-f ./mongo-express/docker-compose.yml"
+    service="./mongo-express/docker-compose.yml"
     dotenv="--env-file ./credentials/mongo.env --env-file ./credentials/mongo-express.env"
+    container="mongo-express"
+    image="mongo-express"
     ;;
   gitea)
-    service="-f ./gitea/docker-compose.yml"
+    service="./gitea/docker-compose.yml"
     dotenv="--env-file ./credentials/gitea.env --env-file ./credentials/mariadb.env"
+    container="gitea"
+    image="gitea-gitea"
+    volumes="gitea_config gitea_data gitea_var"
     ;;
   mariadb)
-    service="-f ./mariadb/docker-compose.yml"
+    service="./mariadb/docker-compose.yml"
     dotenv="--env-file ./credentials/mariadb.env"
+    container="mariadb"
+    image="mariadb-mariadb"
+    volumes="mariadb_data"
+    networks="mariadb_network"
     ;;
   *)
     echo "Invalid service."
@@ -43,6 +58,18 @@ case "$2" in
     ;;
 esac
 
-cmd="docker compose $service $dotenv $operation"
+if [[ "$1" == "up" || "$1" == "down" ]]; then
+  cmd="docker compose -f $service $dotenv $operation"
+elif [[ "$1" == "rm" ]]; then
+  cmd="docker stop $container"
+  cmd+="; docker rm $container"
+  cmd+="; docker rmi -f $image"
+  if [[ ! -z "$volumes" ]]; then
+    cmd+="; docker volume rm -f $volumes"
+  fi
+  if [[ ! -z "$networks" ]]; then
+    cmd+="; docker network rm $networks"
+  fi
+fi
 
 eval $cmd
