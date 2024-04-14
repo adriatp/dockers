@@ -39,14 +39,15 @@ case "$2" in
     ;;
   gitea)
     service="./gitea/docker-compose.yml"
-    dotenv="--env-file ./credentials/gitea.env --env-file ./credentials/mariadb.env"
+    dotenv="--env-file ./credentials/gitea.env"
     container="gitea"
     image="gitea-gitea"
     volumes="gitea_config gitea_data gitea_var"
+    init_mariadb=('./credentials/gitea.env' 'GITEA__database__USER' 'GITEA__database__PASSWD' 'GITEA__database__NAME')
     ;;
   mariadb)
     service="./mariadb/docker-compose.yml"
-    dotenv="--env-file ./credentials/mariadb.env"
+    dotenv="--env-file ./credentials/mariadb.env --env-file ./credentials/gitea.env"
     container="mariadb"
     image="mariadb-mariadb"
     volumes="mariadb_data"
@@ -60,6 +61,13 @@ esac
 
 if [[ "$1" == "up" || "$1" == "down" ]]; then
   cmd="docker compose -f $service $dotenv $operation"
+  if [[ "$1" == "up" && ! -z "$init_mariadb" ]]; then
+    source ${init_mariadb[0]}
+    DB_USER=${!init_mariadb[1]}
+    DB_PWD=${!init_mariadb[2]}
+    DB_NAME=${!init_mariadb[3]}
+    cmd+="; docker exec mariadb /usr/local/bin/init_db.sh ${DB_USER} ${DB_PWD} ${DB_NAME}"
+  fi
 elif [[ "$1" == "rm" ]]; then
   cmd="docker stop $container"
   cmd+="; docker rm $container"
