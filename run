@@ -41,9 +41,17 @@ case "$2" in
     service="./gitea/docker-compose.yml"
     dotenv="--env-file ./credentials/gitea.env"
     container="gitea"
-    image="gitea-gitea"
+    image="gitea/gitea"
     volumes="gitea_config gitea_data gitea_var"
     init_mariadb=('./credentials/gitea.env' 'GITEA__database__USER' 'GITEA__database__PASSWD' 'GITEA__database__NAME')
+    ;;
+  passbolt)
+    service="./passbolt/docker-compose.yml"
+    dotenv="--env-file ./credentials/passbolt.env"
+    container="passbolt"
+    image="passbolt/passbolt"
+    volumes="gpg_volume jwt_volume"
+    init_mariadb=('./credentials/passbolt.env' 'PASSBOLT__DATASOURCES_DEFAULT_USERNAME' 'PASSBOLT__DATASOURCES_DEFAULT_PASSWORD' 'PASSBOLT__DATASOURCES_DEFAULT_DATABASE')
     ;;
   mariadb)
     service="./mariadb/docker-compose.yml"

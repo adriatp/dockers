@@ -1,0 +1,38 @@
+services:
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    container_name: passbolt
+    environment:
+      APP_FULL_BASE_URL: ${PASSBOLT__APP_FULL_BASE_URL}
+      DATASOURCES_DEFAULT_HOST: ${PASSBOLT__DATASOURCES_DEFAULT_HOST}
+      DATASOURCES_DEFAULT_USERNAME: ${PASSBOLT__DATASOURCES_DEFAULT_USERNAME}
+      DATASOURCES_DEFAULT_PASSWORD: ${PASSBOLT__DATASOURCES_DEFAULT_PASSWORD}
+      DATASOURCES_DEFAULT_DATABASE: ${PASSBOLT__DATASOURCES_DEFAULT_DATABASE}
+    restart: always
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    command:
+      [
+        "/usr/bin/wait-for.sh",
+        "-t",
+        "0",
+        "mariadb:3306",
+        "--",
+        "/docker-entrypoint.sh",
+      ]
+    ports:
+      - ${PASSBOLT__WEB_PORT_80}:80
+      - ${PASSBOLT__WEB_PORT_443}:443
+    networks:
+      - mariadb_network
+
+volumes:
+  gpg_volume:
+    name: gpg_volume
+  jwt_volume:
+    name: jwt_volume
+
+networks:
+  mariadb_network:
+    external: true
