@@ -44,6 +44,7 @@ case "$2" in
     image="gitea/gitea"
     volumes="gitea_config gitea_data gitea_var"
     init_mariadb=('./credentials/gitea.env' 'GITEA__database__USER' 'GITEA__database__PASSWD' 'GITEA__database__NAME')
+    init_nginx=('./credentials/gitea.env' 'GITEA__IP' 'GITEA__WEB_PORT_DOCKER' 'GITEA__DNS')
     ;;
   passbolt)
     service="./passbolt/docker-compose.yml"
@@ -61,6 +62,14 @@ case "$2" in
     volumes="mariadb_data"
     networks="mariadb_network"
     ;;
+  nginx)
+    service="./nginx/docker-compose.yml"
+    dotenv="--env-file ./credentials/nginx.env"
+    container="nginx"
+    image="nginx-nginx"
+    volumes="nginx_data"
+    networks="nginx_network"
+    ;;
   *)
     echo "Invalid service."
     exit 1
@@ -75,6 +84,14 @@ if [[ "$1" == "up" || "$1" == "down" ]]; then
     DB_PWD=${!init_mariadb[2]}
     DB_NAME=${!init_mariadb[3]}
     cmd+="; docker exec mariadb /usr/local/bin/init_db.sh ${DB_USER} ${DB_PWD} ${DB_NAME}"
+  fi
+  if [[ "$1" == "up" && ! -z "$init_nginx" ]]; then
+    source ${init_nginx[0]}
+    SRV_IP=${!init_nginx[1]}
+    SRV_PORT=${!init_nginx[2]}
+    SRV_DNS=${!init_nginx[3]}
+    cmd+="; docker exec nginx /usr/local/bin/init_srv.sh ${SRV_IP} ${SRV_PORT} ${SRV_DNS}"
+    cmd+="; docker exec -it nginx nginx -s reload"
   fi
 elif [[ "$1" == "rm" ]]; then
   cmd="docker stop $container"

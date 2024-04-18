@@ -22,6 +22,7 @@ services:
       - "${GITEA__SSH_PORT}:22"
     networks:
       - mariadb_network
+      - nginx_network
 
 volumes:
   gitea_var:
@@ -33,4 +34,6 @@ volumes:
 
 networks:
   mariadb_network:
+    external: true
+  nginx_network:
     external: true
