@@ -7,11 +7,15 @@ Stores docker-compose files used in the past to keep tracking my pov soa
 - [x] Add `mongo`
 - [x] Add `mongo express`
 - [x] Docs to run `mongo` without `mongo-express`
-- [x] Use bash/make to run docker
-- [ ] Add nginx and certbot (watch out for arm)
-- [ ] Add `mariadb`
-- [ ] Add `gitlab` or `gitea`
-- [ ] Add `postfix` for smtp relay
+- [x] Use bash/make to `run` docker
+- [x] Add `mariadb`
+- [x] Add code version service like `gitlab` or `gitea`
+- [x] Add `nginx` for dev apps
+- [ ] Add `postfix` with (maybe) smtp relay
+- [ ] Add `nginx` and `certbot` (watch out for arm)
+- [ ] Add password manager like `passbolt`
+- [ ] Add `minio` for storage
+- [ ] rm `kill-all` function
 
 ## credentials
 
@@ -34,12 +38,15 @@ chmod +x run.sh
 
 - up
 - down
-- kill-all
+- rm
+- kill-all (deprecated)
 
 ### services
 
 - mongo
 - mongo-express
+- mariadb
+- gitea
 
 ## faqs
 
