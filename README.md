@@ -10,12 +10,23 @@ Stores docker-compose files used in the past to keep tracking my pov soa
 - [x] Use bash/make to `run` docker
 - [x] Add `mariadb`
 - [x] Add code version service like `gitlab` or `gitea`
-- [x] Add `nginx` for dev apps
+- [x] Add `nginx` for dev apps (proxy)
 - [ ] Add `postfix` with (maybe) smtp relay
 - [ ] Add `nginx` and `certbot` (watch out for arm)
 - [ ] Add password manager like `passbolt`
 - [ ] Add `minio` for storage
 - [ ] rm `kill-all` function
+
+## install
+
+```bash
+# Install docker and docker-compose in arch-linux
+sudo pacman -Sy docker docker-compose
+sudo usermod -aG docker $USER
+newgrp docker                         # or reboot
+systemctl start docker
+# systemctl enable docker
+```
 
 ## credentials
 
@@ -47,17 +58,3 @@ chmod +x run.sh
 - mongo-express
 - mariadb
 - gitea
-
-## faqs
-
-- **What if I can run docker due lack of permissions (like in Debian)?**
-
-```bash
-# Try to add your user into `docker` group. First create it (if it's not already)
-cat /etc/group
-sudo groupadd docker
-# Add your user to the docker group
-sudo usermod -aG docker ${USER}
-# Reload session to re-evaluate the group membership
-su -s ${USER}
-```
