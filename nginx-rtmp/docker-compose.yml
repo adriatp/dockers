@@ -1,0 +1,23 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx-rtmp
+    env_file:
+      - path: ../credentials/nginx-rtmp.env
+    ports:
+      - 
+    volumes:
+      - nginx_rtmp_data:/etc/nginx/conf.d
+    networks:
+      - nginx_rtmp_network
+
+volumes:
+  nginx_rtmp_data:
+    name: nginx_rtmp_data
+
+networks:
+  nginx_rtmp_network:
+    driver: bridge
+    name: nginx_rtmp_network

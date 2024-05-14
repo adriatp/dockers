@@ -46,14 +46,6 @@ case "$2" in
     init_mariadb=('./credentials/gitea.env' 'GITEA__database__USER' 'GITEA__database__PASSWD' 'GITEA__database__NAME')
     init_nginx=('./credentials/gitea.env' 'GITEA__IP' 'GITEA__WEB_PORT_DOCKER' 'GITEA__DNS')
     ;;
-  passbolt)
-    service="./passbolt/docker-compose.yml"
-    dotenv="--env-file ./credentials/passbolt.env"
-    container="passbolt"
-    image="passbolt/passbolt"
-    volumes="gpg_volume jwt_volume"
-    init_mariadb=('./credentials/passbolt.env' 'PASSBOLT__DATASOURCES_DEFAULT_USERNAME' 'PASSBOLT__DATASOURCES_DEFAULT_PASSWORD' 'PASSBOLT__DATASOURCES_DEFAULT_DATABASE')
-    ;;
   mariadb)
     service="./mariadb/docker-compose.yml"
     dotenv="--env-file ./credentials/mariadb.env --env-file ./credentials/gitea.env"
@@ -69,6 +61,14 @@ case "$2" in
     image="nginx-nginx"
     volumes="nginx_data"
     networks="nginx_network"
+    ;;
+  nginx-rtmp)
+    service="./nginx-rtmp/docker-compose.yml"
+    dotenv="--env-file ./credentials/nginx-rtmp.env"
+    container="nginx-rtmp"
+    image="nginx-rtmp"
+    volumes="nginx_rtmp_data"
+    networks="nginx_rtmp_network"
     ;;
   *)
     echo "Invalid service."
